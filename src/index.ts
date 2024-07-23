@@ -5,44 +5,32 @@ app.get("/", function (req: any, res: any) {
   res.send("Hello Worldd");
 });
 
-function split() {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const orginalMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-      args[0] = args[0].split("");
-      orginalMethod.apply(this, args);
-    };
+const split = (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  const orginalMethod = descriptor.value;
+  descriptor.value = function (...args: any[]) {
+    args[0] = args[0].split("");
+    orginalMethod.apply(this, args);
   };
-}
-function reverse() {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const orginalMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-      args[0] = args[0].reverse();
-      orginalMethod.apply(this, args);
-    };
+};
+const reverse = (targer: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  const orginalMethod = descriptor.value;
+  descriptor.value = function (...args: any) {
+    args[0] = args[0].reverse();
+    orginalMethod.apply(this, args);
   };
-}
-function join() {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const orginalMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-      args[0] = args[0].join("");
-      orginalMethod.apply(this, args);
-    };
-  };
-}
+};
 
-class StringManagerClass {
-  @split()
-  @reverse()
-  @join()
+class StirngManager {
+  @split
+  @reverse
   reverseString(str: string) {
-    console.log("inside of function ", str);
+    console.log("text", str);
   }
 }
 
-const stringManagerClass = new StringManagerClass();
-stringManagerClass.reverseString("abc");
+const stringManager = new StirngManager();
+stringManager.reverseString("abcdef");
+
+console.log("hellow 8888");
 
 app.listen(3000);
