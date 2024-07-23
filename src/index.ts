@@ -20,9 +20,18 @@ const reverse = (targer: any, propertyKey: string, descriptor: PropertyDescripto
   };
 };
 
+const join = (str: string) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  const orginalMethod = descriptor.value;
+  descriptor.value = function (...args: any) {
+    args[0] = args[0].join(str);
+    orginalMethod.apply(this, args);
+  };
+};
+
 class StirngManager {
   @split
   @reverse
+  @join("+")
   reverseString(str: string) {
     console.log("text", str);
   }
@@ -30,7 +39,5 @@ class StirngManager {
 
 const stringManager = new StirngManager();
 stringManager.reverseString("abcdef");
-
-console.log("hellow 8888");
 
 app.listen(3000);
